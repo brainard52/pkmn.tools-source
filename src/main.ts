@@ -6,6 +6,8 @@ import {Generations, Abilities, Moves} from '@pkmn/data';
 const generation = 9 //TODO: Create a selection dropdown. This should default to the current gen, and clear/repopulate the datalists when changed. 
 const gens = new Generations(Dex);
 
+const results = document.getElementById("results")! as HTMLFormElement;
+
 function main(){
   document.getElementById("pokemonSearchForm")!.onsubmit = search
   appendNamesToDatalist("abilityEntryList", gens.get(generation).abilities);
@@ -51,7 +53,28 @@ function search() {
     Speed: getHTMLInputElementValueFromForm(form, "speedEntry"),
     SpeedComparison: getHTMLInputElementValueFromForm(form, "speedEntryComparison")
   }
-  console.log(parameters);
+  if (!results.thead){
+    results.createTHead()
+  }
+
+  if (!results.tHead.rows.length) {
+    let foo = results.tHead.insertRow()
+    for (let i = 0; i<=5; i++){
+      let bar: HTMLTableCellElement = document.createElement("th");
+      bar.nodeValue = `${i}`;
+      foo.appendChild(bar);
+      console.log("Added " + i)
+    }
+  }
+  if (results.tHead.rows[0].cells.length) {
+    console.log(`Length: ${results.tHead.rows[0].cells.length}`)
+    for (let i = results.tHead.rows[0].cells.length; i--; i>=0){
+      console.log(`Index: ${i}`)
+      results.tHead.rows[0].deleteCell(i);
+    }
+    console.log(results.tHead.rows[0].cells.length)
+  }
+  
 }
 
 function getHTMLInputElementValueFromForm(form: HTMLFormElement, element: string): string{
