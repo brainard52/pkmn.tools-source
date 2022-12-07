@@ -1,7 +1,7 @@
 import './../style.css';
 import '@pkmn/dex';
 import { Dex } from '@pkmn/dex';
-import { Generations, Specie, Abilities, Moves } from '@pkmn/data';
+import { Generations, Specie, Abilities, Moves, Types } from '@pkmn/data';
 
 const generation = 9 //TODO: Create a selection dropdown. This should default to the current gen, and clear/repopulate the datalists when changed. 
 const gens = new Generations(Dex);
@@ -9,7 +9,8 @@ let species = gens.get(generation).species;
 let moves = gens.get(generation).moves;
 let abilities = gens.get(generation).abilities;
 let learnsets = gens.get(generation).learnsets;
-let stats = gens.get(generation).stats
+let stats = gens.get(generation).stats;
+let types = gens.get(generation).types;
 
 const resultsTable = document.getElementById("resultsTable")! as HTMLTableElement;
 let results: Specie[] = []
@@ -18,9 +19,19 @@ function main() {
   document.getElementById("pokemonSearchForm")!.onsubmit = search;
   appendNamesToDatalist("abilityEntryList", abilities);
   appendNamesToDatalist("moveEntryList", moves);
+  appendTypesToDatalist("typeEntryList", types);
   document.getElementById("clear")!.onclick = clearSearch;
   document.getElementById("search")!.onclick = search;
   clearResults()
+}
+
+function appendTypesToDatalist(elementName: string, list: Types){
+  let dataListNode = document.getElementById(elementName)!;
+  for (let type of list) {
+    let option = document.createElement("option");
+    option.value = type.name;
+    dataListNode.appendChild(option);
+  }
 }
 
 function appendNamesToDatalist(elementName: string, list: Abilities | Moves) {
@@ -47,6 +58,8 @@ async function search() {
 
   let parameters = {
     Ability: getHTMLInputElementValueFromForm(form, "abilityEntry"),
+    Type1: getHTMLInputElementValueFromForm(form, "type1Entry"),
+    Type2: getHTMLInputElementValueFromForm(form, "type2Entry"),
     Move1: getHTMLInputElementValueFromForm(form, "move1Entry"),
     Move2: getHTMLInputElementValueFromForm(form, "move2Entry"),
     Move3: getHTMLInputElementValueFromForm(form, "move3Entry"),
@@ -68,6 +81,8 @@ async function search() {
   clearResults()
   for (let mon of species) {
     if (parameters.Ability != "" && !([mon.abilities[0], mon.abilities[1], mon.abilities.H] as string[]).includes(parameters.Ability)) continue;
+    if (parameters.Type1 != "" && !([mon.types[0], mon.types[1]] as string[]).includes(parameters.Type1)) continue;
+    if (parameters.Type2 != "" && !([mon.types[0], mon.types[1]] as string[]).includes(parameters.Type2)) continue;
     if (await checkLearn(parameters.Move1, mon.name)) continue;
     if (await checkLearn(parameters.Move2, mon.name)) continue;
     if (await checkLearn(parameters.Move3, mon.name)) continue;

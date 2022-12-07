@@ -1,131 +1,151 @@
 <!DOCTYPE html>
 <html>
- <head>
+
+<head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="utf-8">
   <link rel="icon" type="image/x-icon" href="/res/favicon.ico">
   <title></title>
- </head>
- <body>
+</head>
+
+<body>
   <form id="pokemonSearchForm">
-   <table>
-    <tr>
-     <th class="tableHead" colspan="3" style="text-align:center;">Pokémon Search</th>
-    </tr>
-    <tr>
-     <th><label for="abilityEntry">Ability</label></th>
-     <!--TODO: Add ability short and full text search-->
-     <td colspan="2">
-      <input type="text" class="textInput" list="abilityEntryList" id="abilityEntry" />
-     </td>
-    </tr>
-    <tr>
-     <th><label for="move1Entry">Move 1</label></th>
-     <td colspan="2">
-      <input type="text" class="textInput" list="moveEntryList" id="move1Entry" />
-     </td>
-    </tr>
-    <tr>
-     <th><label for="move2Entry">Move 2</label></th>
-     <td colspan="2">
-      <input type="text" class="textInput" list="moveEntryList" id="move2Entry" />
-     </td>
-    </tr>
-    <tr>
-     <th><label for="move3Entry">Move 3</label></th>
-     <td colspan="2">
-      <input type="text" class="textInput" list="moveEntryList" id="move3Entry" />
-     </td>
-    </tr>
-    <tr>
-     <th><label for="move4Entry">Move 4</label></th>
-     <td colspan="2">
-      <input type="text" class="textInput" list="moveEntryList" id="move4Entry" />
-     </td>
-    </tr>
-    <tr>
-     <th><label for="hpEntry">HP</label></th>
-     <td class="col2">
-      <select name="hpEntryComparison" id="hpEntryComparison">
-       <option />
-       <option value="<=" >&lt;=</option>
-       <option value=">=" >&gt;=</option>
-      </select>
-     </td>
-     <td class="col3">
-      <input type="number" class="statInput" id="hpEntry" name="hpEntry" min="0" max="999" value="0" step="1" />
-     </td>
-    </tr>
-    <tr>
-     <th><label for="attackEntry">Atk</label></th>
-     <td class="col2">
-      <select name="attackEntryComparison" id="attackEntryComparison">
-       <option />
-       <option value="<=" >&lt;=</option>
-       <option value=">=" >&gt;=</option>
-      </select>
-     </td>
-     <td class="col3">
-      <input type="number" class="statInput" id="attackEntry" name="attackEntry" min="0" max="999" value="0" step="1" />
-     </td>
-    </tr>
-    <tr>
-     <th><label for="defenseEntry">Def</label></th>
-     <td class="col2">
-      <select name="defenseEntryComparison" id="defenseEntryComparison">
-       <option />
-       <option value="<=" >&lt;=</option>
-       <option value=">=" >&gt;=</option>
-      </select>
-     </td>
-     <td class="col3">
-      <input type="number" class="statInput" id="defenseEntry" name="defenseEntry" min="0" max="999" value="0" step="1" />
-     </td>
-    </tr>
-    <tr>
-     <th><label for="specialAttackEntry">SpA</label></th>
-     <td class="col2">
-      <select name="specialAttackEntryComparison" id="specialAttackEntryComparison">
-       <option />
-       <option value="<=" >&lt;=</option>
-       <option value=">=" >&gt;=</option>
-      </select>
-     </td>
-     <td class="col3">
-      <input type="number" class="statInput" id="specialAttackEntry" name="specialAttackEntry" min="0" max="999" value="0" step="1" />
-     </td>
-    </tr>
-    <tr>
-     <th><label for="specialDefenseEntry">SpD</label></th>
-     <td class="col2">
-      <select name="specialDefenseEntryComparison" id="specialDefenseEntryComparison">
-       <option />
-       <option value="<=" >&lt;=</option>
-       <option value=">=" >&gt;=</option>
-      </select>
-     </td>
-     <td class="col3">
-      <input type="number" class="statInput" id="specialDefenseEntry" name="specialDefenseEntry" min="0" max="999" value="0" step="1" />
-     </td>
-    </tr>
-    <tr>
-     <th><label for="speedEntry">Spe</label></th>
-     <td class="col2">
-      <select name="speedEntryComparison" id="speedEntryComparison">
-       <option />
-       <option value="<=" >&lt;=</option>
-       <option value=">=" >&gt;=</option>
-      </select>
-     </td>
-     <td class="col3">
-      <input type="number" class="statInput" id="speedEntry" name="speedEntry" min="0" max="999" value="0" step="1" />
-     </td>
-    </tr>
-    <tr>
-     <td><input type="button" Value="Search" id="search" /></td>
-     <td><input type="button" Value="Clear" id="clear" /></td><!-- Used to be Value="Reset" id="reset", but that caused a bug. Naming a button "reset" prevents using the function "reset" on a form if the button is in the form-->
-    </tr>
-   </table>
+    <table>
+      <tr>
+        <th class="tableHead" colspan="3" style="text-align:center;">Pokémon Search</th>
+      </tr>
+      <tr>
+        <th><label for="abilityEntry">Ability</label></th>
+        <!--TODO: Add ability short and full text search-->
+        <td colspan="2">
+          <input type="text" class="textInput" list="abilityEntryList" id="abilityEntry" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="type1Entry">Type 1</label></th>
+        <td colspan="2">
+          <input type="text" class="textInput" list="typeEntryList" id="type1Entry" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="type2Entry">Type 2</label></th>
+        <td colspan="2">
+          <input type="text" class="textInput" list="typeEntryList" id="type2Entry" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="move1Entry">Move 1</label></th>
+        <td colspan="2">
+          <input type="text" class="textInput" list="moveEntryList" id="move1Entry" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="move2Entry">Move 2</label></th>
+        <td colspan="2">
+          <input type="text" class="textInput" list="moveEntryList" id="move2Entry" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="move3Entry">Move 3</label></th>
+        <td colspan="2">
+          <input type="text" class="textInput" list="moveEntryList" id="move3Entry" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="move4Entry">Move 4</label></th>
+        <td colspan="2">
+          <input type="text" class="textInput" list="moveEntryList" id="move4Entry" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="hpEntry">HP</label></th>
+        <td class="col2">
+          <select name="hpEntryComparison" id="hpEntryComparison">
+            <option />
+            <option value="<=">&lt;=</option>
+            <option value=">=">&gt;=</option>
+          </select>
+        </td>
+        <td class="col3">
+          <input type="number" class="statInput" id="hpEntry" name="hpEntry" min="0" max="999" value="0" step="1" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="attackEntry">Atk</label></th>
+        <td class="col2">
+          <select name="attackEntryComparison" id="attackEntryComparison">
+            <option />
+            <option value="<=">&lt;=</option>
+            <option value=">=">&gt;=</option>
+          </select>
+        </td>
+        <td class="col3">
+          <input type="number" class="statInput" id="attackEntry" name="attackEntry" min="0" max="999" value="0"
+            step="1" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="defenseEntry">Def</label></th>
+        <td class="col2">
+          <select name="defenseEntryComparison" id="defenseEntryComparison">
+            <option />
+            <option value="<=">&lt;=</option>
+            <option value=">=">&gt;=</option>
+          </select>
+        </td>
+        <td class="col3">
+          <input type="number" class="statInput" id="defenseEntry" name="defenseEntry" min="0" max="999" value="0"
+            step="1" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="specialAttackEntry">SpA</label></th>
+        <td class="col2">
+          <select name="specialAttackEntryComparison" id="specialAttackEntryComparison">
+            <option />
+            <option value="<=">&lt;=</option>
+            <option value=">=">&gt;=</option>
+          </select>
+        </td>
+        <td class="col3">
+          <input type="number" class="statInput" id="specialAttackEntry" name="specialAttackEntry" min="0" max="999"
+            value="0" step="1" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="specialDefenseEntry">SpD</label></th>
+        <td class="col2">
+          <select name="specialDefenseEntryComparison" id="specialDefenseEntryComparison">
+            <option />
+            <option value="<=">&lt;=</option>
+            <option value=">=">&gt;=</option>
+          </select>
+        </td>
+        <td class="col3">
+          <input type="number" class="statInput" id="specialDefenseEntry" name="specialDefenseEntry" min="0" max="999"
+            value="0" step="1" />
+        </td>
+      </tr>
+      <tr>
+        <th><label for="speedEntry">Spe</label></th>
+        <td class="col2">
+          <select name="speedEntryComparison" id="speedEntryComparison">
+            <option />
+            <option value="<=">&lt;=</option>
+            <option value=">=">&gt;=</option>
+          </select>
+        </td>
+        <td class="col3">
+          <input type="number" class="statInput" id="speedEntry" name="speedEntry" min="0" max="999" value="0"
+            step="1" />
+        </td>
+      </tr>
+      <tr>
+        <td><input type="button" Value="Search" id="search" /></td>
+        <td><input type="button" Value="Clear" id="clear" /></td>
+        <!-- Used to be Value="Reset" id="reset", but that caused a bug. Naming a button "reset" prevents using the function "reset" on a form if the button is in the form-->
+      </tr>
+    </table>
   </form>
   <table id="resultsTable">
     <!--↾⇂-->
@@ -134,9 +154,12 @@
   </datalist>
   <datalist id="abilityEntryList">
   </datalist>
+  <datalist id="typeEntryList">
+  </datalist>
   <script type="module" src="../src/search/species.ts"></script>
- </body>
- <footer>
- <a href="fonts.html">The QualiType font collection</a>
- </footer>
+</body>
+<footer>
+  <a href="fonts.html">The QualiType font collection</a>
+</footer>
+
 </html>
