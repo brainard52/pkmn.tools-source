@@ -1,0 +1,4 @@
+- Create a method of arranging the form elements based on the width of the screen.
+    - 3 rows, 15 columns
+    - 4 rows, 10 columns
+    - 7 rows, 5 columns
