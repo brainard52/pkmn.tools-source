@@ -7,8 +7,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        species: resolve(__dirname, 'search/species.html'),
-        fonts: resolve(__dirname, 'fonts.html')
+        species: resolve(__dirname, 'search/index.html'),
+        fonts: resolve(__dirname, 'fonts/index.html')
       }
     }
   }
