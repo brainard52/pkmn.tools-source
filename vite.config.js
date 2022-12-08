@@ -7,7 +7,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        nested: resolve(__dirname, 'search/species.html')
+        species: resolve(__dirname, 'search/species.html'),
+        fonts: resolve(__dirname, 'fonts.html')
       }
     }
   }
