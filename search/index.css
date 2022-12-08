@@ -1,0 +1,89 @@
+@font-face {
+ font-family: Eurotype;
+ src: url(/res/font/QTEurotype.otf);
+}
+@font-face {
+ font-family: Eurotype;
+ src: url(/res/font/QTEurotype-Bold.otf);
+ font-weight: bold;
+}
+html {
+ font-family: Eurotype;
+}
+@media screen and (orientation: portrait) {
+ .pageOfText{
+  margin-right: 5%;
+  margin-left: 5%;
+ }
+}
+@media screen and (orientation: landscape) {
+ .pageOfText{
+  margin-right: 15%;
+  margin-left: 15%;
+ }
+}
+th {
+ font-weight: normal;
+ text-align: left;
+}
+
+a:link {
+ text-decoration: none;
+
+}
+a:visited{
+ text-decoration: none;
+}
+a:hover {
+ text-decoration: underline
+}
+
+.col2 {
+ text-align: center;
+}
+
+.col3 {
+ text-align: right;
+}
+
+.statInput {
+ width: 3em;
+ text-align: center;
+}
+
+.textInput {
+ width:10em;
+ text-align: center;
+}
+
+select {
+ appearance: none;
+ -webkit-appearance: none;
+ -moz-appearance: none;
+ text-indent: 1px;
+ text-overflow: '';
+ width: 3em;
+ text-align: center;
+ font-family: Eurotype;
+}
+select::-ms-expand {
+ display: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+ appearance: none;
+ -webkit-appearance: none;
+ margin: 0;
+}
+input[type=number]{
+ appearance: none;
+ -moz-appearance: textfield;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 1em;
+}
