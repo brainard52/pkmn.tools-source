@@ -137,8 +137,6 @@ function getHTMLInputElementValueFromForm(form: HTMLFormElement, element: string
   return (form.elements[element as any] as HTMLInputElement).value;
 }
 
-window.onload = main;
-
 /*
 Search:
 1. Fill out form
@@ -180,3 +178,5 @@ function clearResults() {
   // Name, Type 1, Type 2 ,Ability 1, Ability 2, H. Ability, HP, Atk, Def, SpA, SpD, Spe, Total
   // TODO: Hover over a value in this table to see Min/Max for detrimental, neutral, and beneficial natures.
 }
+
+window.onload = main;
