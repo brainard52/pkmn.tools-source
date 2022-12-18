@@ -2,29 +2,30 @@ import '/search/index.css';
 import '@pkmn/dex';
 import { Dex } from '@pkmn/dex';
 import { Generations, Specie, Abilities, Moves, Types } from '@pkmn/data';
+import { StatID } from '@pkmn/types';
 
-const generation = 9 //TODO: Create a selection dropdown. This should default to the current gen, and clear/repopulate the datalists when changed. 
-const gens = new Generations(Dex);
-let species = gens.get(generation).species;
-let moves = gens.get(generation).moves;
-let abilities = gens.get(generation).abilities;
-let learnsets = gens.get(generation).learnsets;
-let stats = gens.get(generation).stats;
-let types = gens.get(generation).types;
+const generation = 9 //TODO: Create a selection dropdown. This should default to the current gen, and clear/repopulate the datalists when changed.
+const gens = new Generations(Dex)
+let species = gens.get(generation).species
+let moves = gens.get(generation).moves
+let abilities = gens.get(generation).abilities
+let learnsets = gens.get(generation).learnsets
+let stats = gens.get(generation).stats
+let types = gens.get(generation).types
 
-const resultsTable = document.getElementById("resultsTable")! as HTMLTableElement;
+const resultsDiv = document.getElementById("resultsDiv")! as HTMLDivElement
 let results: Specie[] = []
 
 function main() {
-  updateMargin()
-  window.onresize = updateMargin
+  updateMargin();
+  window.onresize = updateMargin;
   document.getElementById("pokemonSearchForm")!.onsubmit = search;
   appendNamesToDatalist("abilityEntryList", abilities);
   appendNamesToDatalist("moveEntryList", moves);
   appendTypesToDatalist("typeEntryList", types);
   document.getElementById("clear")!.onclick = clearSearch;
   document.getElementById("search")!.onclick = search;
-  clearResults()
+  clearResults();
 }
 
 function appendTypesToDatalist(elementName: string, list: Types){
@@ -50,13 +51,26 @@ function appendNamesToDatalist(elementName: string, list: Abilities | Moves) {
 function clearSearch() {
   let form = document.getElementById("pokemonSearchForm")! as HTMLFormElement;
   form.reset();
+  results = [];
   clearResults();
+  clearResultsDiv();
 }
 
-type comparitor = "" | ">=" | "<="
+function clearResultsDiv() {
+  while (resultsDiv.hasChildNodes()) {
+    resultsDiv.removeChild(resultsDiv.firstChild!);
+  }
+}
+
+function clearResults() {
+  results = [];
+}
+
+type comparitor = "" | ">=" | "<=";
 async function search() {
+  // TODO: Write a function that json-izes the results and puts it into a field above the search results.
   let form = document.getElementById("pokemonSearchForm") as HTMLFormElement;
-  let resultTableBody = resultsTable.tBodies[0];
+  clearResults();
 
   let parameters = {
     Ability: getHTMLInputElementValueFromForm(form, "abilityEntry"),
@@ -77,10 +91,11 @@ async function search() {
     SpecialDefense: parseInt(getHTMLInputElementValueFromForm(form, "specialDefenseEntry"), 10),
     SpecialDefenseComparison: getHTMLInputElementValueFromForm(form, "specialDefenseEntryComparison") as comparitor,
     Speed: parseInt(getHTMLInputElementValueFromForm(form, "speedEntry"), 10),
-    SpeedComparison: getHTMLInputElementValueFromForm(form, "speedEntryComparison") as comparitor
+    SpeedComparison: getHTMLInputElementValueFromForm(form, "speedEntryComparison") as comparitor,
+    SortDirection: getHTMLInputElementValueFromForm(form, "sortDirection"),
+    Sort: getHTMLInputElementValueFromForm(form, "sortSelection") as StatID
   }
 
-  clearResults()
   for (let mon of species) {
     if (parameters.Ability != "" && !([mon.abilities[0], mon.abilities[1], mon.abilities.H] as string[]).includes(parameters.Ability)) continue;
     if (parameters.Type1 != "" && !([mon.types[0], mon.types[1]] as string[]).includes(parameters.Type1)) continue;
@@ -95,101 +110,116 @@ async function search() {
     if (compareStat(parameters.SpecialAttack, parameters.SpecialAttackComparison, mon.baseStats.spa)) continue;
     if (compareStat(parameters.SpecialDefense, parameters.SpecialDefenseComparison, mon.baseStats.spd)) continue;
     if (compareStat(parameters.Speed, parameters.SpeedComparison, mon.baseStats.spe)) continue;
-    results.push(mon)
+    results.push(mon);
   }
-  for (let mon of results) {
-    let newRow = resultTableBody.insertRow(-1);
-    createTableCell(newRow, mon.name)
-    createTableCell(newRow, mon.types[0])
-    createTableCell(newRow, mon.types[1])
-    createTableCell(newRow, mon.abilities[0])
-    createTableCell(newRow, mon.abilities[1])
-    createTableCell(newRow, mon.abilities.H)
-    createTableCell(newRow, mon.baseStats.hp.toString())
-    createTableCell(newRow, mon.baseStats.atk.toString())
-    createTableCell(newRow, mon.baseStats.def.toString())
-    createTableCell(newRow, mon.baseStats.spa.toString())
-    createTableCell(newRow, mon.baseStats.spd.toString())
-    createTableCell(newRow, mon.baseStats.spe.toString())
-    createTableCell(newRow, (mon.baseStats.hp + mon.baseStats.atk + mon.baseStats.def + mon.baseStats.spa + mon.baseStats.spd + mon.baseStats.spe).toString())
+  sortResults(parameters.Sort, parameters.SortDirection)
+  displayResults();
+}
+
+function sortResults(sortBy: StatID, sortDirection: string) {
+  console.log(`${sortDirection} sort by ${sortBy}`)
+  results.sort(comparePokemon(sortBy, sortDirection))
+}
+function comparePokemon(sortBy: StatID, sortDirection: string) {
+  if (sortDirection == "descending") {
+    var sortMod = -1
+  }
+  if (sortDirection == "ascending") {
+    var sortMod = 1
+  }
+  return function(a: Specie, b: Specie) {
+    if (a.baseStats[sortBy] > b.baseStats[sortBy]) {
+      return 1*sortMod;
+    }
+    if (a.baseStats[sortBy] < b.baseStats[sortBy]) {
+      return -1*sortMod;
+    }
+    return 0;
   }
 }
 
-function createTableCell(row: HTMLTableRowElement, textContent: string | undefined) {
-  let newCell = row.insertCell(-1);
-  if (textContent !== undefined) {
-    newCell.textContent = textContent;
+function displayResults() {
+  clearResultsDiv();
+  for (let mon of results) {
+    resultsDiv.appendChild(createStatCard(mon));
   }
 }
 
 async function checkLearn(parameter: string, name: string): Promise<boolean> {
-  let parameterNotEmpty = parameter != ""
-  let pokemonLearnsMove = await learnsets.canLearn(name, parameter)
+  let parameterNotEmpty = parameter != "";
+  let pokemonLearnsMove = await learnsets.canLearn(name, parameter);
   //if (parameters.Move4 != "" && !learnsets.canLearn(mon.name, parameters.Move4)) continue;
-  return parameterNotEmpty && !pokemonLearnsMove
+  return parameterNotEmpty && !pokemonLearnsMove;
 }
 
 function compareStat(parameter: number, comparitor: comparitor, stat: number): boolean {
-  let parameterNotNaN = !isNaN(parameter)
+  let parameterNotNaN = !isNaN(parameter);
   let comparitorNotEmpty = comparitor != "";
-  let comparitorResult = !((comparitor == ">=") ? stat >= parameter : stat <= parameter)
-  return parameterNotNaN && comparitorNotEmpty && comparitorResult
+  let comparitorResult = !((comparitor == ">=") ? stat >= parameter : stat <= parameter);
+  return parameterNotNaN && comparitorNotEmpty && comparitorResult;
 }
+
 function getHTMLInputElementValueFromForm(form: HTMLFormElement, element: string): string {
   return (form.elements[element as any] as HTMLInputElement).value;
 }
 
-/*
-Search:
-1. Fill out form
-2. click Search
-3. acquire list of pokemon
-4. filter list of pokemon by form values
-5. store list of filtered
-6. Sort list by name
-7. Enter row for each in list
-8. Clear rows if list sorted, sort, insert sorted rows
-*/
-
-// function compareResults(results: Specie[], key: string): Specie[] {
-// }
-// function compareStrings(n1: BasicEffect, n2: BasicEffect) {
-//   if (n1.name > n2.name) {
-//     return 1;
-//   }
-//   if (n1.name < n2.name) {
-//     return -1;
-//   }
-//   return 0;
-// }
-// return []
-
-function clearResults() {
-  results = []
-  let header = (resultsTable.tHead) ? resultsTable.tHead : resultsTable.createTHead();
-  let headerRow = (header.rows.length) ? header.rows[0] : header.insertRow();
-  while (headerRow.cells.length) headerRow.deleteCell(-1);
-  for (let headerLabel of ["Name", "Type 1", "Type 2", "Ability 1", "Ability 2", "H. Ability", "HP", "Atk", "Def", "SpA", "SpD", "Spe", "Total"]) {
-    let newHeader = document.createElement('th');
-    newHeader.textContent = headerLabel;
-    headerRow.appendChild(newHeader);
-  }
-  let body = (resultsTable.tBodies.length) ? resultsTable.tBodies[0] : resultsTable.createTBody();
-  while (body.rows.length) body.deleteRow(-1);
-
-  // Name, Type 1, Type 2 ,Ability 1, Ability 2, H. Ability, HP, Atk, Def, SpA, SpD, Spe, Total
-  // TODO: Hover over a value in this table to see Min/Max for detrimental, neutral, and beneficial natures.
-}
+// TODO: Hover over a value in this table to see Min/Max for detrimental, neutral, and beneficial natures.
+// TODO: Click a stat to switch it from base stat to min/max for detrimental, neutral, and beneficial natures. Color similarly to the games. Only show one stat at a time, and allow the player to cycle through.
 
 function updateMargin(){
-    let ratio = document.documentElement.clientWidth/document.documentElement.clientHeight
-    let box = document.getElementById("contentBoundingBox") as HTMLParagraphElement;
-    let margin = "0%"
-    if (ratio >= 0.75) {
-        margin =  `${100*(Math.sqrt(ratio-0.75)/10)}\%`
-    }
-    box.style.marginLeft = margin;
-    box.style.marginRight = margin;
+  document.documentElement.style.setProperty("--aspect-ratio", (document.documentElement.clientWidth/document.documentElement.clientHeight).toString())
+  /* TODO: Figure out why --aspect-ratio isn't working. It's likely due to the CSS
+  * for #contentBoundingBox being incorrectly implemented. For now, I'm leaving
+  * the Javascript implementation I had before my attempt to move it to CSS. 
+  */
+  let ratio = document.documentElement.clientWidth/document.documentElement.clientHeight;
+  let box = document.getElementById("contentBoundingBox") as HTMLParagraphElement;
+  let margin = "0%";
+  if (ratio >= 1.4) {
+      margin =  `${100*(Math.sqrt(ratio-1.4)/10)}\%`;
+  }
+  box.style.marginLeft = margin;
+  box.style.marginRight = margin;
+}
+
+function createStatCard(mon: Specie): HTMLDivElement{
+  let container = createDiv("cardContainer");
+  container.appendChild(createDiv("cardName", mon.name));
+  let cardTypeContainer = createDiv("cardTypeContainer", `${mon.types[0]}` + ((mon.types[1]) ? ` ${mon.types[1]}` : "") );
+  container.appendChild(cardTypeContainer);
+  /*let cardImageContainer = createDiv("cardImageContainer");
+  container.appendChild(cardImageContainer);
+  container.appendChild(createDiv("cardAbilitiesLabel", "Abilities"))
+  */
+  container.appendChild(createDiv("cardAbility1", mon.abilities[0]))
+  container.appendChild(createDiv("cardAbility2", ((mon.abilities[1]) ? "\n" + mon.abilities[1] : "")))
+  container.appendChild(createDiv("cardAbilityH", ((mon.abilities.H) ? "\n" + mon.abilities.H + " (H)": "")))
+  container.appendChild(createBaseStatDiv("cardHP", `HP ${mon.baseStats.hp.toString()}`))
+  container.appendChild(createBaseStatDiv("cardAtk", `Atk ${mon.baseStats.atk.toString()}`))
+  container.appendChild(createBaseStatDiv("cardDef", `Def ${mon.baseStats.def.toString()}`))
+  container.appendChild(createBaseStatDiv("cardSpa", `SpA ${mon.baseStats.spa.toString()}`))
+  container.appendChild(createBaseStatDiv("cardSpd", `SpD ${mon.baseStats.spd.toString()}`))
+  container.appendChild(createBaseStatDiv("cardSpe", `Spe ${mon.baseStats.spe.toString()}`))
+  container.appendChild(createDiv("cardStatTotal", `Total ${(mon.baseStats.hp + mon.baseStats.atk + mon.baseStats.def + mon.baseStats.spa + mon.baseStats.spd + mon.baseStats.spe).toString()}`))
+  return container;
+}
+
+function createDiv(elementClass: string, text?: string): HTMLDivElement{
+  let div = document.createElement("div");
+  if (text) {
+    div.textContent = text;
+  }
+  div.classList.add(elementClass);
+  return div;
+}
+
+function createBaseStatDiv(elementClass: string, text?: string): HTMLDivElement{
+  let div = createDiv(elementClass)
+  if (text) {
+    div.textContent = text;
+  }
+  div.classList.add("baseStat")
+  return div;
 }
 
 window.onload = main;

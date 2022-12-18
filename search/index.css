@@ -1,89 +1,277 @@
 @font-face {
- font-family: Eurotype;
- src: url(/res/font/QTEurotype.otf);
+    font-family: Eurotype;
+    src: url(/res/font/QTEurotype.otf);
+    font-weight: normal;
 }
+
 @font-face {
- font-family: Eurotype;
- src: url(/res/font/QTEurotype-Bold.otf);
- font-weight: bold;
+    font-family: Eurotype;
+    src: url(/res/font/QTEurotype-Bold.otf);
+    font-weight: bold;
 }
+
 html {
- font-family: Eurotype;
-}
-@media screen and (orientation: portrait) {
- .pageOfText{
-  margin-right: 5%;
-  margin-left: 5%;
- }
-}
-@media screen and (orientation: landscape) {
- .pageOfText{
-  margin-right: 15%;
-  margin-left: 15%;
- }
-}
-th {
- font-weight: normal;
- text-align: left;
+    font-family: Eurotype;
 }
 
-a:link {
- text-decoration: none;
-
-}
-a:visited{
- text-decoration: none;
-}
-a:hover {
- text-decoration: underline
+:root {
+    --aspect-ratio: 1; /*This must be computed by javascript. I've set it here to 1 so it is known.*/
 }
 
-.col2 {
- text-align: center;
+#contentBoundingBox {
+    /*border: 1px solid red;
+    */
+    
+    justify-content: center;
+    /*margin: 0;
+    */
 }
 
-.col3 {
- text-align: right;
+@media (orientation: portrait) {
+    .pageOfText {
+        margin: 0 5%;
+    }
 }
 
+@media (orientation: landscape) {
+    .pageOfText {
+        margin: 0 15%;
+    }
+}
+
+label {
+    font-weight: normal;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    /*padding: 0 0.5em;
+    */
+}
+#sortGroup {
+    display: flex;
+    align-content: space-evenly;
+    justify-content: center;
+}
+#resultsDiv {
+    /*border: 1px solid red;
+    */
+    gap: 0.2em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#formDiv{
+    /*border: 1px solid red;
+    */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 1em;
+}
+
+#pokemonSearchFormLabel { grid-area: formL; }
+
+#hpEntryLabel{ grid-area: hpL; }
+#hpEntryComparison{ grid-area: hpC; }
+#hpEntry{ grid-area: hpE; }
+
+#attackEntryLabel{ grid-area: atkL; }
+#attackEntryComparison{ grid-area: atkC; }
+#attackEntry{ grid-area: atkE; }
+
+#defenseEntryLabel{ grid-area: defL; }
+#defenseEntryComparison{ grid-area: defC; }
+#defenseEntry{ grid-area: defE; }
+
+#specialAttackEntryLabel{ grid-area: spaL; }
+#specialAttackEntryComparison{ grid-area: spaC; }
+#specialAttackEntry{ grid-area: spaE; }
+
+#specialDefenseEntryLabel{ grid-area: spdL; }
+#specialDefenseEntryComparison{ grid-area: spdC; }
+#specialDefenseEntry{ grid-area: spdE; }
+
+#speedEntryLabel{ grid-area: speL; }
+#speedEntryComparison{ grid-area: speC; }
+#speedEntry{ grid-area: speE; }
+
+#type1EntryLabel { grid-area: type1L; }
+#type1Entry { grid-area: type1E; }
+
+#type2EntryLabel { grid-area: type2L; }
+#type2Entry { grid-area: type2E; }
+
+#abilityEntryLabel { grid-area: abilityL; }
+#abilityEntry { grid-area: abilityE; }
+
+#move1EntryLabel { grid-area: move1L; }
+#move1Entry { grid-area: move1E; }
+
+#move2EntryLabel { grid-area: move2L; }
+#move2Entry { grid-area: move2E; }
+
+#move3EntryLabel { grid-area: move3L; }
+#move3Entry { grid-area: move3E; }
+
+#move4EntryLabel { grid-area: move4L; }
+#move4Entry { grid-area: move4E; }
+
+#sortSelectionLabel { grid-area: sortL; }
+#sortDirection { grid-area: sortD; }
+#sortGroup { grid-area: sort; }
+
+#buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-area: buttons;
+    gap: 0.4em;
+}
+
+#pokemonSearchForm {
+    display: inline-grid;
+    text-align: center;
+    grid-template-rows: repeat(8, auto);
+    grid-template-columns: repeat(3, auto) 1fr 1fr 1fr;
+    grid-gap: 0.4em;
+    grid-template-areas:
+    "formL formL formL formL formL formL"
+    "hpL hpC hpE abilityL abilityE abilityE"
+    "atkL atkC atkE move1L move1E move1E"
+    "defL defC defE move2L move2E move2E"
+    "spaL spaC spaE move3L move3E move3E"
+    "spdL spdC spdE move4L move4E move4E"
+    "speL speC speE type1L type1E type1E"
+    "sortL sort sort type2L type2E type2E"
+    "buttons buttons buttons buttons buttons buttons";
+}
+#pokemonSearchForm * {
+    min-height: 1.5625em;
+    grid-gap: 0.4em;
+}
+
+/* TODO: Figure out why --aspect-ratio isn't working. It's likely due to the CSS
+ * for #contentBoundingBox being incorrectly implemented. For now, I'm leaving
+ * the Javascript implementation I had before my attempt to move it to CSS. 
+ */
+@media (min-aspect-ratio: 1.21) {
+    #contentBoundingBox {
+        /*border: 1px solid blue;
+        margin: 0 calc(0% + (100 * (sqrt(var(--aspect-ratio) - 0.75) / 10)));
+        */
+    }
+    #pokemonSearchForm{
+        grid-template-rows: repeat(4, auto);
+        grid-template-columns: repeat(6,.5fr) repeat(3, .8fr 2fr);
+        grid-template-areas:
+        "formL formL formL formL formL formL formL formL formL formL formL formL"
+        "hpL hpC hpE speL speC speE move1L move1E move2L move2E abilityL abilityE"
+        "atkL atkC atkE defL defC defE move3L move3E move4L move4E sortL sort"
+        "spaL spaC spaE spdL spdC spdE type1L type1E type2L type2E buttons buttons"
+    }
+    #buttons {
+        /*justify-content: right;
+        */
+    }
+
+}
+
+.cardContainer {
+    border: 1px solid grey;
+    
+    text-align: center;
+    display: grid;
+    gap: .1em;
+    /*grid-template-rows: repeat(7, 1fr);
+    */
+    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+        "name name name"
+        "type type type"
+        /*"image image image"
+        "abilitiesLabel abilitiesLabel abilitiesLabel"
+        */
+        "ability1 ability1 ability1"
+        "ability2 ability2 ability2"
+        "abilityH abilityH abilityH"
+        "hp atk def"
+        "spa spd spe"
+        "total total total";
+}
+
+/*.cardContainer * { border: 1px solid red; }
+*/
+
+.cardName { grid-area: name; }
+.cardTypeContainer { grid-area: type; }
+.cardImageContainer { grid-area: image; }
+.cardAbilitiesLabel { grid-area: abilitiesLabel; }
+.cardAbility1 { grid-area: ability1; }
+.cardAbility2 { grid-area: ability2; }
+.cardAbilityH { grid-area: abilityH; }
+.baseStat { min-width: 4.5em; }
+.cardHP { grid-area: hp; }
+.cardAtk { grid-area: atk; }
+.cardDef { grid-area: def; }
+.cardSpa { grid-area: spa; }
+.cardSpd { grid-area: spd; }
+.cardSpe { grid-area: spe; }
+.cardStatTotal { grid-area: total; }
+
+
+a:link,
+a:hover,
+a:visited {
+    text-decoration: none;
+
+}
 .statInput {
- width: 3em;
- text-align: center;
+    width: 4em;
+    text-align: center;
 }
 
 .textInput {
- width:10em;
- text-align: center;
+    width: 10em;
+    text-align: center;
 }
 
-select {
- appearance: none;
- -webkit-appearance: none;
- -moz-appearance: none;
- text-indent: 1px;
- text-overflow: '';
- width: 3em;
- text-align: center;
- font-family: Eurotype;
+.statSelect {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+    width: auto;
+    text-align: center;
+    font-family: Eurotype;
 }
+
 select::-ms-expand {
- display: none;
+    display: none;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
- appearance: none;
- -webkit-appearance: none;
- margin: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    margin: 0;
 }
-input[type=number]{
- appearance: none;
- -moz-appearance: textfield;
+
+input[type=number] {
+    appearance: none;
+    -moz-appearance: textfield;
+}
+input[type=button] {
+    min-width:6em;
 }
 
 footer {
+    display: flex;
+    justify-content: center;
     position: fixed;
     bottom: 0;
     width: 100%;
     height: 1em;
+    background-color: white;
 }

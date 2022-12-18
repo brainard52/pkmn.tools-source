@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0" />
   <meta charset="utf-8">
   <link rel="icon" type="image/x-icon" href="/res/favicon.ico">
   <title></title>
@@ -10,156 +10,103 @@
 
 <body>
   <div id="contentBoundingBox">
-  <form id="pokemonSearchForm">
-    <table>
-      <tr>
-        <th class="tableHead" colspan="3" style="text-align:center;">Pokémon Search</th>
-      </tr>
-      <tr>
-        <th><label for="abilityEntry">Ability</label></th>
-        <!--TODO: Add ability short and full text search-->
-        <td colspan="2">
-          <input type="text" class="textInput" list="abilityEntryList" id="abilityEntry" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="type1Entry">Type 1</label></th>
-        <td colspan="2">
-          <input type="text" class="textInput" list="typeEntryList" id="type1Entry" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="type2Entry">Type 2</label></th>
-        <td colspan="2">
-          <input type="text" class="textInput" list="typeEntryList" id="type2Entry" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="move1Entry">Move 1</label></th>
-        <td colspan="2">
-          <input type="text" class="textInput" list="moveEntryList" id="move1Entry" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="move2Entry">Move 2</label></th>
-        <td colspan="2">
-          <input type="text" class="textInput" list="moveEntryList" id="move2Entry" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="move3Entry">Move 3</label></th>
-        <td colspan="2">
-          <input type="text" class="textInput" list="moveEntryList" id="move3Entry" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="move4Entry">Move 4</label></th>
-        <td colspan="2">
-          <input type="text" class="textInput" list="moveEntryList" id="move4Entry" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="hpEntry">HP</label></th>
-        <td class="col2">
-          <select name="hpEntryComparison" id="hpEntryComparison">
-            <option />
-            <option value="<=">&lt;=</option>
-            <option value=">=">&gt;=</option>
+    <div id="formDiv">
+      <form id="pokemonSearchForm">
+        <div id="pokemonSearchFormLabel">Pokémon Search (currently gen 9 only, more planned)</div>
+        <label for="abilityEntry" id="abilityEntryLabel">Ability</label>
+        <input type="text" class="textInput" list="abilityEntryList" id="abilityEntry" />
+        <label for="type1Entry" id="type1EntryLabel">Type 1</label>
+        <input type="text" class="textInput" list="typeEntryList" id="type1Entry" />
+        <label for="type2Entry" id="type2EntryLabel">Type 2</label>
+        <input type="text" class="textInput" list="typeEntryList" id="type2Entry" />
+        <label for="move1Entry" id="move1EntryLabel">Move 1</label>
+        <input type="text" class="textInput" list="moveEntryList" id="move1Entry" />
+        <label for="move2Entry" id="move2EntryLabel">Move 2</label>
+        <input type="text" class="textInput" list="moveEntryList" id="move2Entry" />
+        <label for="move3Entry" id="move3EntryLabel">Move 3</label>
+        <input type="text" class="textInput" list="moveEntryList" id="move3Entry" />
+        <label for="move4Entry" id="move4EntryLabel">Move 4</label>
+        <input type="text" class="textInput" list="moveEntryList" id="move4Entry" />
+        <label for="hpEntry" id="hpEntryLabel">HP</label>
+        <select name="hpEntryComparison" class="statSelect" id="hpEntryComparison">
+          <option value=""></option>
+          <option value="<=">&lt;=</option>
+          <option value=">=">&gt;=</option>
+        </select>
+        <input type="number" class="statInput" id="hpEntry" name="hpEntry" min="0" max="999" value="0" step="1" />
+        <label for="attackEntry" id="attackEntryLabel">Atk</label>
+        <select name="attackEntryComparison" class="statSelect" id="attackEntryComparison">
+          <option value=""></option>
+          <option value="<=">&lt;=</option>
+          <option value=">=">&gt;=</option>
+        </select>
+        <input type="number" class="statInput" id="attackEntry" name="attackEntry" min="0" max="999" value="0"
+          step="1" />
+        <label for="defenseEntry" id="defenseEntryLabel">Def</label>
+        <select name="defenseEntryComparison" class="statSelect" id="defenseEntryComparison">
+          <option value=""></option>
+          <option value="<=">&lt;=</option>
+          <option value=">=">&gt;=</option>
+        </select>
+        <input type="number" class="statInput" id="defenseEntry" name="defenseEntry" min="0" max="999" value="0"
+          step="1" />
+        <label for="specialAttackEntry" id="specialAttackEntryLabel">SpA</label>
+        <select name="specialAttackEntryComparison" class="statSelect" id="specialAttackEntryComparison">
+          <option value=""></option>
+          <option value="<=">&lt;=</option>
+          <option value=">=">&gt;=</option>
+        </select>
+        <input type="number" class="statInput" id="specialAttackEntry" name="specialAttackEntry" min="0" max="999"
+          value="0" step="1" />
+        <label for="specialDefenseEntry" id="specialDefenseEntryLabel">SpD</label>
+        <select name="specialDefenseEntryComparison" class="statSelect" id="specialDefenseEntryComparison">
+          <option value=""></option>
+          <option value="<=">&lt;=</option>
+          <option value=">=">&gt;=</option>
+        </select>
+        <input type="number" class="statInput" id="specialDefenseEntry" name="specialDefenseEntry" min="0" max="999"
+          value="0" step="1" />
+        <label for="speedEntry" id="speedEntryLabel">Spe</label>
+        <select name="speedEntryComparison" class="statSelect" id="speedEntryComparison">
+          <option value=""></option>
+          <option value="<=">&lt;=</option>
+          <option value=">=">&gt;=</option>
+        </select>
+        <input type="number" class="statInput" id="speedEntry" name="speedEntry" min="0" max="999" value="0" step="1" />
+        <label for="sortSelection" id="sortSelectionLabel">Sort</label>
+        <div id="sortGroup">
+          <select name="sortDirection" id="sortDirection">
+            <option value="descending">Descending</option>
+            <option value="ascending">Ascending</option>
           </select>
-        </td>
-        <td class="col3">
-          <input type="number" class="statInput" id="hpEntry" name="hpEntry" min="0" max="999" value="0" step="1" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="attackEntry">Atk</label></th>
-        <td class="col2">
-          <select name="attackEntryComparison" id="attackEntryComparison">
-            <option />
-            <option value="<=">&lt;=</option>
-            <option value=">=">&gt;=</option>
+          <select name="sortSelection" id="sortSelection">
+            <option value="hp">HP</option>
+            <option value="atk">Atk</option>
+            <option value="def">Def</option>
+            <option value="spa">SpA</option>
+            <option value="spd">SpD</option>
+            <option value="spe">Spe</option>
           </select>
-        </td>
-        <td class="col3">
-          <input type="number" class="statInput" id="attackEntry" name="attackEntry" min="0" max="999" value="0"
-            step="1" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="defenseEntry">Def</label></th>
-        <td class="col2">
-          <select name="defenseEntryComparison" id="defenseEntryComparison">
-            <option />
-            <option value="<=">&lt;=</option>
-            <option value=">=">&gt;=</option>
-          </select>
-        </td>
-        <td class="col3">
-          <input type="number" class="statInput" id="defenseEntry" name="defenseEntry" min="0" max="999" value="0"
-            step="1" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="specialAttackEntry">SpA</label></th>
-        <td class="col2">
-          <select name="specialAttackEntryComparison" id="specialAttackEntryComparison">
-            <option />
-            <option value="<=">&lt;=</option>
-            <option value=">=">&gt;=</option>
-          </select>
-        </td>
-        <td class="col3">
-          <input type="number" class="statInput" id="specialAttackEntry" name="specialAttackEntry" min="0" max="999"
-            value="0" step="1" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="specialDefenseEntry">SpD</label></th>
-        <td class="col2">
-          <select name="specialDefenseEntryComparison" id="specialDefenseEntryComparison">
-            <option />
-            <option value="<=">&lt;=</option>
-            <option value=">=">&gt;=</option>
-          </select>
-        </td>
-        <td class="col3">
-          <input type="number" class="statInput" id="specialDefenseEntry" name="specialDefenseEntry" min="0" max="999"
-            value="0" step="1" />
-        </td>
-      </tr>
-      <tr>
-        <th><label for="speedEntry">Spe</label></th>
-        <td class="col2">
-          <select name="speedEntryComparison" id="speedEntryComparison">
-            <option />
-            <option value="<=">&lt;=</option>
-            <option value=">=">&gt;=</option>
-          </select>
-        </td>
-        <td class="col3">
-          <input type="number" class="statInput" id="speedEntry" name="speedEntry" min="0" max="999" value="0"
-            step="1" />
-        </td>
-      </tr>
-      <tr>
-        <td><input type="button" Value="Search" id="search" /></td>
-        <td><input type="button" Value="Clear" id="clear" /></td>
-        <!-- Used to be Value="Reset" id="reset", but that caused a bug. Naming a button "reset" prevents using the function "reset" on a form if the button is in the form-->
-      </tr>
-    </table>
-  </form>
-  <table id="resultsTable">
-    <!--↾⇂-->
-  </table>
+        </div>
+        <div id="buttons">
+          <input type="button" Value="Search" id="search" />
+          <input type="button" Value="Clear" id="clear" />
+        </div>
+      </form>
+    </div>
+
+    <div id="resultsDiv">
+    </div>
+  </div>
   <datalist id="moveEntryList">
   </datalist>
   <datalist id="abilityEntryList">
   </datalist>
   <datalist id="typeEntryList">
   </datalist>
+  <datalist id="gameEntryList">
+  </datalist>
   <script type="module" src="/search/index.ts"></script>
-
-  </div>
 </body>
 <footer>
   <a href="/fonts/">The QualiType font collection</a>
